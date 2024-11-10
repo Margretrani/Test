@@ -63,12 +63,22 @@
     margin-top: 20px;
     font-weight: bold;
 }
+
 .viewmorebtn{
     text-decoration: none;
     background-color: #000;
-    color: var(--primary-color);
-    padding: 27px 27px 20px 21px;
-    border-radius: 20px 0px 20px 0px;
+    color: #fff;
+    padding: 10px 10px;
+    border-radius: 5px;
     font-size: 18px;
-   
+    margin-bottom: 20px;
+}
+
+@media screen and(max-width:600px)
+{
+    .banner{
+       
+        height: 700px;
+        
+    }
 }
