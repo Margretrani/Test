@@ -1,0 +1,81 @@
+<div class="card">
+    <div class="card-body pb-0 pt-2">
+        <div class="main_div" style="background-color: white">
+            <div class="sub_div mt-4">
+                <div class="d-flex" style="overflow: auto;">
+                    <div class="column">
+                        <div class="box1">
+                            <h6 class="text-center">{{ 'Payable' | localize }}</h6>
+                            <div class="app-info text-center">
+                                <div class='app-name'>
+                                    <div class='app-initial'>{{timeConvert(footerData?.payableHours)}} </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column">
+                        <div class="box2">
+                            <h6 class="text-center">{{ 'Present' | localize }}</h6>
+                            <div class="app-info text-center">
+                                <div class='app-name'>
+                                    <div class='app-initial'> {{timeConvert(footerData?.presentHours)}}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column">
+                        <div class="box3">
+                            <h6 class="text-center">{{ 'Holidays' | localize }}</h6>
+                            <div class="app-info text-center">
+                                <div class='app-name'>
+                                    <div class='app-initial'>{{timeConvert(footerData?.holidays)}}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column">
+                        <div class="box4">
+                            <h6 class="text-center">{{ 'Weekends' | localize }}</h6>
+                            <div class="app-info text-center">
+                                <div class='app-name'>
+                                    <div class='app-initial'>{{timeConvert(footerData?.weekend)}}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column">
+                        <div class="box5">
+                            <h6 class="text-center">{{ 'PaidLeave' | localize }}</h6>
+                            <div class="app-info text-center">
+                                <div class='app-name'>
+                                    <div class='app-initial'>{{timeConvert(footerData?.paidLeave)}}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column">
+                        <div class="box6">
+                            <h6 class="text-center">{{ 'UnPaidLeave' | localize }}</h6>
+                            <div class="app-info text-center">
+                                <div class='app-name'>
+                                    <div class='app-initial'>{{timeConvert(footerData?.unPaidLeave)}}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column">
+                        <div class="box7">
+                            <h6 class="text-center">{{ 'Absent' | localize }}</h6>
+                            <div class="app-info text-center">
+                                <div class='app-name'>
+                                    <div class='app-initial'>{{timeConvert(footerData?.absent)}}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

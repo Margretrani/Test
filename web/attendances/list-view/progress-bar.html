@@ -1,0 +1,50 @@
+<div class="container-fluid" id="" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight "
+  aria-controls="offcanvasRight" style="padding: 0px !important;">
+  <div *ngIf="filteredRec.length > 0 || isfullday; else popUp">
+    <div class="progress" style="height: 35px; width: 100%;">
+      <span class="progress-bar-sample" *ngFor="let rec of percentages;let c=index;"
+       [ngStyle]="{ 'width': rec.percentage +'%', 'background-color': rec.color,
+        'display':'inline-block', 'text-align':'left' }" (click)="onClick()">
+        <span *ngIf="rec.statusname === '0.5 Absent'" class="total-hours Absents">{{rec.statusname}}</span>
+        <span *ngIf="rec.statusname === '0.5 Present'" class="total-hours Present">{{rec.statusname}}</span>
+        <span *ngIf="rec.statusname === '0.5 LOP(SecondHalf) Leave'" class="Absents">{{rec.statusname}}</span>
+        <span *ngIf="rec.statusname === '0.5 LOP(FirstHalf) Leave'" class="Absents">{{rec.statusname}}</span>
+        <span *ngIf="rec.statusname === '0.5 WFH'" class="Present">{{rec.statusname}}</span>
+        <span *ngIf="['Casual Leave', 'Optional Leave', 'Sick Leave'].includes(rec.statusname)" class="total-hours Casual">
+          {{ rec.statusname }}
+        </span>
+        <span *ngIf="rec.statusname !== 'Present' && rec.statusname !== '0.5 Absent'
+         && rec.statusname !== '0.5 Present' && rec.statusname !=='0.5 Leave'
+          && rec.statusname !=='0.5 WFH' && rec.statusname !== '0.5 LOP(SecondHalf) Leave'
+          && rec.statusname !== '0.5 LOP(FirstHalf) Leave'"class="HalfLeave">{{rec.statusname}}</span>
+        <span *ngIf="rec.statusname === 'Present'" [ngClass]="getStatusColor(record)" class="total-hours">
+            {{rec.statusname}} - {{ tHours != undefined && tHours != null ? convertMinutesToHours(tHours) : "00:00" }}
+        </span>
+      </span>
+    </div>
+
+  </div>
+  <ng-template #popUp>
+    <div class="progress" style="height: 35px; width: 100%;" (click)="onClick()">
+      <span *ngFor="let rec of presentPercentanges" [ngClass]="rec.classname"
+        [ngStyle]="{ 'width': rec.percentage + '%', 'text-align': 'left' }">
+      </span>
+        <span class="total-hours" style="position: absolute;" [ngClass]="getStatusColor(record)"
+        *ngIf="status != ''">
+        <!-- Display the status name -->
+        {{ status ? status : '' }}
+
+        <!-- Display hours only if it's not a holiday or the specified leave types -->
+        <span *ngIf="!['Casual Leave', 'Optional Leave', 'Sick Leave'].includes(status)
+        && !status.toLocaleLowerCase().includes('holiday')
+        && !status.toLocaleLowerCase().includes('firsthalf')
+        && !status.toLocaleLowerCase().includes('secondhalf')">
+          {{ tHours != undefined && tHours != null ? convertMinutesToHours(tHours) : '00:00' }}
+        </span>
+      </span>
+
+    </div>
+  </ng-template>
+
+
+  <app-canvas-display #canvasModal></app-canvas-display>

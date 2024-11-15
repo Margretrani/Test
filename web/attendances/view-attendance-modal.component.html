@@ -1,0 +1,64 @@
+﻿<div bsModal #createOrEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="createOrEditModal" aria-hidden="true" [config]="{backdrop: 'static'}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">
+                    <span>{{l("Details")}}</span>
+                </h4>               
+                
+                
+                 <button type="button" class="btn-close" (click)="close()" aria-label="Close" [disabled]="saving"></button>
+             
+            </div>
+            <div class="modal-body">
+
+                <div class="row">
+                    <div class="col-6 mb-3">
+                        <h6>{{l("CheckIn")}} :</h6>
+                        {{ item.attendance.checkIn |  luxonFormat:'yyyy-LL-dd HH:mm:ss'  }}
+                    </div>
+                    <div class="col-6 mb-3">
+                        <h6>{{l("CheckOut")}} :</h6>
+                        {{ item.attendance.checkOut |  luxonFormat:'yyyy-LL-dd HH:mm:ss'  }}
+                    </div>
+                    <div class="col-6 mb-3">
+                        <h6>{{l("TotalMinutes")}} :</h6>
+                        {{ item.attendance.totalMinutes }}
+                    </div>
+                    <div class="col-6 mb-3">
+                        <h6>{{l("EmployeeId")}} :</h6>
+                        {{ item.attendance.employeeId }}
+                    </div>
+                    <div class="col-6 mb-3">
+                        <h6>{{l("Eventtime")}} :</h6>
+                        {{ item.attendance.eventtime |  luxonFormat:'yyyy-LL-dd HH:mm:ss'  }}
+                    </div>
+                    <div class="col-6 mb-3">
+                        <h6>{{l("Ischeckin")}} :</h6>
+                        <div *ngIf="item.attendance.ischeckin" class="text-left"><i class="fa fa-check-circle text-success"
+                                title="True"></i></div>
+                        <div *ngIf="!item.attendance.ischeckin" class="text-left"><i class="fa fa-times-circle" title="False"></i></div>
+                    </div>                    <div class="col-6 mb-3">
+                        <h6>{{l("Downloaddate")}} :</h6>
+                        {{ item.attendance.downloaddate |  luxonFormat:'yyyy-LL-dd HH:mm:ss'  }}
+                    </div>
+                    <div class="col-6 mb-3">
+                        <h6>{{l("SourceType")}} :</h6>
+                        {{ item.attendance.sourceType }}
+                    </div>
+
+                    <div class="col-6 mb-3">
+                        <h6>({{l("User")}}) {{l("Name")}} :</h6>
+                        {{item.userName}}
+                    </div>
+
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button [disabled]="saving" type="button" class="btn btn-primary blue" (click)="close()">{{l("Close")}}</button>
+            </div>
+        </div>
+    </div>
+
+</div>

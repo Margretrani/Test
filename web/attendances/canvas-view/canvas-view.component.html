@@ -1,0 +1,98 @@
+<div class="offcanvas offcanvas-end" (click)="close()" tabindex="-1" id="offcanvasRight"
+  aria-labelledby="offcanvasRightLabel" style="width: 75%;" data-bs-backdrop="static" data-bs-keyboard="false">
+  <div class="offcanvas-header text-white text-bold" style="background-color: #6C73DB;"> {{record?.date}}
+    <a class="navbar-brand mr-auto mr-lg-0" href="#"></a>
+    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close" (click)="close()"
+      style="background-color: white !important; border-radius: 50% !important;"></button>
+  </div>
+  <div class="offcanvas-body">
+    <div class="row">
+      <div class="col-lg-3">
+        <div class="card checkin mb-5">
+          <div class="card-body">
+            <img src="../../../../../assets/common/images/check-in.svg" class="float-start" />
+            <p class="card-txt">First Check IN</p>
+            <span class="card-time" style="font-weight: bold;">{{record?.checkIn}}</span>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-3">
+        <div class="card checkout mb-5">
+          <div class="card-body">
+            <img src="../../../../../assets/common/images/check-out.svg" class="float-start" />
+            <p class="card-txt">Last Check Out</p>
+            <span class="card-time" style="font-weight: bold;">{{record?.checkOut}}</span>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-3">
+        <div class="card totalhours mb-5">
+          <div class="card-body">
+            <img src="../../../../../assets/common/images/clockt.svg" class="float-start" />
+            <p class="card-txt">Total Hours</p>
+            <span class="card-time" style="font-weight: bold;">{{record?.totalHours}}</span>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-3">
+        <div class="card break mb-5">
+          <div class="card-body">
+            <img src="../../../../../assets/common/images/paid-break.svg" class="float-start" />
+            <p class="card-txt">Paid Break</p>
+            <span class="card-time" style="font-weight: bold;">01:00 Hrs</span>
+          </div>
+        </div>
+      </div>
+      <div *ngFor="let pair of pairs" class="card mb-5" style="border: 1px solid #C3FFC7;">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-1 d-flex  border-3 border-end">
+              <img src="../../../../../assets/common/images/ChecinIcon.png" alt="CheckInIcon">
+            </div>
+            <div class="col-2  border-3 border-end">
+              <h6>{{ pair.checkIn | date: "hh:mm a" : 'UTC'}}</h6>
+            </div>
+            <div class="col-2 border-3 border-end"></div>
+            <div class="col-2 border-3 border-end"></div>
+            <div class="col-2  border-3 border-end">
+              <!-- Display check-out only if it exists -->
+              <h6 *ngIf="pair.checkOut; else noCheckout">{{ pair.checkOut | date: "hh:mm a" : 'UTC'}}</h6>
+              <!-- Fallback message if no check-out -->
+              <ng-template #noCheckout>
+                <h6>--</h6>
+              </ng-template>
+            </div>
+            <div class="col-2 border-3 border-end"></div>
+            <div class="col-1 d-flex flex-row-reverse">
+              <img src="../../../../../assets/common/images/checkoutIcon.png" *ngIf="pair.checkOut" alt="CheckOutIcon">
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <div *ngIf="record?.permissionHours && record.permissionHours > 0" class="card mb-5"
+        style="border: 1px solid #FFD700;">
+        <div class="card-body">
+          <div class="row">
+            <!-- Icon column, if you want to add an icon like in the first card -->
+            <div class="col-1 d-flex border-3 border-end">
+              <img src="../../../../../assets/common/images/checkoutIcon.png" alt="PermissionIcon">
+            </div>
+
+            <!-- Permission Hours text column -->
+            <div class="col-9 border-3 border-end">
+              <h6>Permission Hours: {{ hours }}</h6>
+            </div>
+
+            <!-- Empty column for spacing or future content -->
+            <div class="col-2 d-flex flex-row-reverse">
+              <!-- Additional content or icons can go here if needed -->
+              <img src="../../../../../assets/common/images/checkoutIcon.png" alt="CheckInIcon">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

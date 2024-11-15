@@ -1,0 +1,198 @@
+<style>
+    .table>tbody>tr>td:first-child,
+    .p-datatable .p-datatable-tbody>tr>td:first-child {
+        border-right: 1px solid #e4e4e4;
+    }
+</style>
+<div>
+    <p-dropdown class="reportees_list" [options]="reportFiltersInit.teamIds" [(ngModel)]="selectedTeamId"
+        *ngIf="isGranted('Pages.TimesheetApprovals') || isGranted('Pages.LeaveApprovals') || isGranted('Pages.PermissionApprovals')"
+        (ngModelChange)="getAttendances($event,selectedTeamId)" optionLabel="teamName" optionValue="teamId"
+        [filter]="true">
+        <ng-template let-team pTemplate="selectedItem">
+            <div class="reportees_text_size">
+                <img [src]="profilePicture" alt="Logo" style="width: 35px; height: 35px; margin-right: 10px;">
+                {{team.employeeId}} {{team.teamName}}
+            </div>
+        </ng-template>
+        <ng-template let-team pTemplate="item">
+            <div>
+                <img [src]="profilePicture" alt="Logo" style="width: 20px; height: 20px; margin-right: 15px;">
+                {{team.employeeId}} {{team.teamName}}
+            </div>
+        </ng-template>
+    </p-dropdown>
+</div>
+
+<div class="card card-custom gutter-b">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-lg-3">
+                <div>
+                    <form [formGroup]="calendar" class="d-inline-block">
+                        <div *ngIf="selectedView === 'week'">
+                            <div class="calendar-container">
+                                <button class="att-prev-btn" (click)="previousWeek()">
+                                    <span class="fa fa-arrow-left"></span>
+                                </button>
+                                <button class="week-days" [(ngModel)]="selectedDate">
+                                    {{ weekStart.format('DD MMM yyyy')}} - {{
+                                    weekEnd.format('DD MMM YYYY') }}
+                                </button>
+                                <button class="att-home-btn" (click)="currentDate()">
+                                    <span class="fa fa-home"></span>
+                                </button>
+                                <button class="att-next-btn" (click)="nextWeek()">
+                                    <span class="fa fa-arrow-right"></span>
+                                </button>
+                            </div>
+                        </div>
+                        <div *ngIf="selectedView === 'month'">
+                            <div class="date-picker-container d-inline">
+                                <button class="att-prev-btn" (click)="prevMonth()"><span
+                                        class="fa fa-arrow-left"></span></button>
+                                <button [(ngModel)]="modelDate" autocomplete="off" class="week-days date-pick"
+                                    name="date" (onShown)="onOpenCalendar($event)" style="width: 150px;">{{modelDate |
+                                    date:'MMM yyyy'}}
+                                </button>
+                                <button class="att-home-btn" (click)="currentdate()"><span
+                                        class="fa fa-home"></span></button>
+                                <button class="att-prev-btn" (click)="nextMonth()">
+                                    <span class="fa fa-arrow-right"></span></button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="col-lg-3 m-auto">
+                <div class="text-center">
+                    General [09:00AM - 06:00PM]
+                </div>
+            </div>
+
+            <div class="col-lg-3" style="display: contents;">
+                <div class="card text-center shadow-sm" style="width: 120px !important;height: 40px !important;background-color: rgba(113, 126, 238, 1) !important;">
+                    <div class="Cardhr">
+                        <p class="card-text" style="margin: 12px !important;">
+                            <img src="../../../../../assets/common/images/mdi_timer-sand-complete.svg" style="float: left;">
+                            <span style="color: #fff;"> {{ sample }}</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="col-lg-3">
+                <img src="../assets/common/images/Export.svg" style="float: right; margin-left: 20px;"
+                    (click)="exportCsv()">
+                <select [(ngModel)]="selectedView" (change)="changeCalendarView()" Class="WeekMonth">
+                    <option value="week">{{l("Attendweek")}}</option>
+                    <option value="month">{{l("Attendmonth")}}</option>
+                </select>
+                <button class="slidericon">
+                    <span class="fa fa-sliders p-1" style="transform: rotate(270deg)"></span>
+                </button>
+            </div>
+
+        </div>
+
+        <div class="row align-items-center mt-5">
+            <div class="primeng-datatable-container col-12" [busyIf]="primengTableHelper.isLoading">
+                <p-table #dataTable (onLazyLoad)="getAttendances($event)" [value]="primengTableHelper.records"
+                    rows="{{primengTableHelper.defaultRecordsCountPerPage}}" [paginator]="false" [lazy]="true"
+                    [scrollable]="true" ScrollWidth="100%" [tableStyle]="{'min-width': '50rem'}"
+                    [resizableColumns]="primengTableHelper.resizableColumns">
+                    <ng-template pTemplate="header">
+
+                        <tr>
+                            <td style="min-width: 100px; font-size: 12px; border:1px solid #e4e4e4; border-left:none">
+                            </td>
+                            <td style="min-width: 100px; font-size: 12px; text-align: center; border:1px solid #e4e4e4">
+                                {{l(' In')}}
+                            </td>
+                            <td
+                                style="width: 100%;min-width: 100px; font-size: 12px; border-top:1px solid #e4e4e4; border-bottom:1px solid #e4e4e4">
+                                <div class="flex-container">
+                                     <!-- Only display the current line if calculateCurrentTimePosition() does not return -1 -->
+
+                                     <div *ngIf="this.selectedView=='week'">
+                                        <div *ngIf="calculateCurrentTimePosition() !== -1"
+                                        class="current-time-line"
+                                        [ngStyle]="{'left': calculateCurrentTimePosition() + '%'}">
+                                        </div>
+                                     </div>
+                                        <div *ngIf="this.selectedView == 'month'">
+                                            <div *ngIf="calculateCurrentTimePosition() !== -1"
+                                            class="current-time-line-month"
+                                            [ngStyle]="{'left': calculateCurrentTimePosition() + '%'}">
+                                            </div>
+                                        </div>
+
+                                    <div class="flex-item" *ngFor="let tLine of timeList">
+                                        {{tLine}}
+                                    </div>
+                                </div>
+                            </td>
+                            <td
+                                style="min-width: 100px; font-size: 12px; text-align: center; border:1px solid #e4e4e4; border-right:none;">
+                                <!-- {{ convertTo12HourFormat(shiftEnd)  }} -->
+                                <span class="ms-3">
+                                    {{l(' Out')}}
+                                </span>
+                            </td>
+                        </tr>
+                    </ng-template>
+
+                    <ng-template pTemplate="body" let-record="$implicit" let-i="rowIndex">
+                        <tr>
+                            <td class="text-center" style="font-size: 12px; border-right: 1px solid #e4e4e4;">
+                                <span class="p-column-title"> {{l('TotalMinutes')}}</span>
+                                {{record.date | utcToLocal: 'EEE,'}} <br>
+                                {{record.date | utcToLocal: 'dd MMM, yyyy'}}
+                            </td>
+                            <td style="font-size: 12px;">
+                                <span class="p-column-title"> {{l('TotalMinutes')}}</span>
+                                {{(record.firstCheckIn | date: 'shortTime':'UTC') }}
+                                <br>
+                                <span
+                                    [ngClass]="{'early-time': findLateInandEarlyIn(record.firstCheckIn)?.startsWith('Early'),
+                                                 'late-time': findLateInandEarlyIn(record.firstCheckIn)?.startsWith('Late')}">
+                                    {{ findLateInandEarlyIn(record.firstCheckIn) }}
+                                </span>
+                            </td>
+                            <td style="font-size: 12px;padding: 0px !important;">
+                                <app-progress-display  [status]="record.status" [pDate]="record.date"
+                                    [pCheckin]="record.firstCheckIn" [pCheckout]="record.lastCheckOut"
+                                    [tHours]="record.totalHours" [allCheckIn]="record.allCheckIn"
+                                    [allCheckOut]="record.allCheckOut" [permissionHours]="record.permissionHours"
+                                    (sendData)="receiveData($event)">
+                                </app-progress-display>
+                            </td>
+                            <td style="font-size: 12px;">
+                                <span class="p-column-title"> {{l('TotalMinutes')}}</span>
+                                {{(record.lastCheckOut | date: 'shortTime':'UTC') }}
+                                <br>
+                                <span
+                                    [ngClass]="{'early-time': findLateOutandEarlyOut(record.lastCheckOut)?.startsWith('Early'),
+                                            'late-time': findLateOutandEarlyOut(record.lastCheckOut)?.startsWith('Late')}">
+                                    {{ findLateOutandEarlyOut(record.lastCheckOut) }}
+                                </span>
+                            </td>
+
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<createOrEditAttendanceModal #createOrEditAttendanceModal (modalSave)="getAttendances()">
+</createOrEditAttendanceModal>
+<viewAttendanceModal #viewAttendanceModal></viewAttendanceModal>
+<entityTypeHistoryModal #entityTypeHistoryModal></entityTypeHistoryModal>
+
+<div class="attendance-footer">
+    <app-footer-view [footerData]="footerDetails"> </app-footer-view>
+</div>

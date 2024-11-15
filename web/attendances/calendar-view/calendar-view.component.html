@@ -1,0 +1,107 @@
+<div>
+    <p-dropdown class="reportees_list"
+        *ngIf="isGranted('Pages.TimesheetApprovals') || isGranted('Pages.LeaveApprovals') || isGranted('Pages.PermissionApprovals')"
+        [options]="reportFiltersInit.teamIds" [(ngModel)]="selectedUserId"
+        (ngModelChange)="getAttendances($event)" optionLabel="teamName" optionValue="teamId" [filter]="true">
+        <ng-template let-team pTemplate="selectedItem">
+            <div class="reportees_text_size">
+                <img [src]="profilePicture" alt="Logo" style="width: 35px; height: 35px; margin-right: 10px;">
+                {{team.employeeId}} {{team.teamName}}
+            </div>
+        </ng-template>
+        <ng-template let-team pTemplate="item">
+            <div>
+                <img [src]="profilePicture" alt="Logo" style="width: 20px; height: 20px; margin-right: 15px;">
+                {{team.employeeId}} {{team.teamName}}
+            </div>
+        </ng-template>
+    </p-dropdown>
+</div>
+
+<div class="bg-white p-5">
+<div class="row">
+    <div class="col-lg-4 p-0">
+        <div class="date-picker-container d-inline">
+            <button class="att-prev-btn" (click)="prevMonth()"><span class="fa fa-arrow-left"></span></button>
+            <input [value]="getFormattedDate()" (ngModelChange)="onDateChange($event)" autocomplete="off" class="my-3 week-days text-center"
+                style="width: auto;" name="date" disabled>
+            <button class="att-home-btn" (click)="currentdate()"><span class="fa fa-home"></span></button>
+            <button class="att-prev-btn" (click)="nextMonth()"><span class="fa fa-arrow-right"></span></button>
+        </div>
+    </div>
+    <div class="col-lg-4 me-auto my-auto">
+        <div class="text-center">
+            General [09:00AM - 06:00PM]
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-2 month_days text-center" *ngFor="let day of weekdays">
+        {{ day }}
+    </div>
+    
+</div>
+<div class="row">
+    <div class="col-lg-2 calendar" *ngFor="let day of attendance; let i = index" [ngClass]="getDayClass(day)">
+        <div class="card m-0" *ngIf=" day.attendanceDate != null && day.attendanceDate.date !== 0">
+            <div class="card-body date-card" [ngClass]="{'holiday-bg' : day.status.includes('Holiday'), 'current-day-bg': isPresentDay(day.attendanceDate) && day.status === '', 'weekend-bg':isWeekend(day.attendanceDate)}">
+                <div class="">
+                    <!-- Angular loop to generate days based on selected month -->
+                    <div class="p-0 mx-5 mt-5">
+                        <h1
+                            [ngClass]="{'weekend-date':isWeekend(day.attendanceDate),'present-text': day.status === 'Present'||  day.status.includes('0.5 Day Present') || day.status.includes('0.5 Day Absent') , 'absent-text': day.status === 'Absent', 'leave-text': day.status === 'Casual Leave' || day.status === 'Sick Leave' || day.status === 'Optional Leave', 'holiday-text' :  day.status.includes('Holiday'), 'empty-day-text': day.status === '' && !isPresentDay(day.attendanceDate) , 'current-day-text': isPresentDay(day.attendanceDate) && day.status === ''  }" style="width:110px; margin: auto;">
+                            {{  stripTime(day.attendanceDate) | date:'d' }}
+                        </h1>
+                    </div>
+                    
+                    <div class="cal-col p-0 mx-5 mt-5">
+                        <!-- Split the status by comma and create cards dynamically -->
+                        <ng-container *ngIf="day.status">
+                            <ng-container *ngFor="let status of day.status.split(',').reverse()">
+                                <div class="card"
+                                    *ngIf="status.trim() === '0.5 Day Absent' || status.trim() === '0.5 Day Present'"
+                                    [ngClass]="{'present-wfh': status.trim() === 'Present (WFH)','absent': status.trim() === '0.5 Day Absent', 'absent-text' : status.trim() === '0.5 Day Absent','present': status.trim() === '0.5 Day Present', 'present-text': status.trim() === '0.5 Day Present'}">
+                                    <div class="card-body">
+                                        <span>{{ status.trim() }}</span>
+                                        <!-- Display shift time for '0.5 Day Present' -->
+                                        <div *ngIf="status.trim() === '0.5 Day Present'">
+                                            <label class="shift-time">{{ day.attendanceDate | date:'h:mm a' }} - {{
+                                                day.lastOut |
+                                                date:'h:mm a' }}</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </ng-container>
+                        </ng-container>
+                        <!-- Additional card for other statuses -->
+                        <div class="card default-color"
+                            *ngIf="day.status && !day.status.includes('0.5 Day Present') && !day.status.includes('0.5 Day Absent')"
+                            [ngClass]="{'lop':day.status === 'LOP Leave', 'half-day-wfh': day.status === '0.5 P (WFH) | 0.5 A','half-day': day.status === '0.5 P | 0.5 A','present-wfh': day.status === 'Present (WFH)','absent':  day.status === 'Absent', 'weekend-bg': day.status === 'Weekend', 'casual_leave': day.status === 'Casual Leave' ,'sick_leave': day.status === 'Sick Leave' ,'optional_leave': day.status === 'Optional Leave', 'present': day.status === 'Present', 'holiday' :  day.status.includes('Holiday') , 'current-day': isPresentDay(day.attendanceDate) && day.status === '' }">
+                            <div class="card-body">
+                                <span
+                                    [ngClass]="{'present-text':isPresentDay(day.attendanceDate) || day.status === 'Present'||  day.status.includes('0.5 Day Present') || day.status.includes('0.5 Day Absent') , 'absent-text': day.status === 'Absent', 'leave-text': day.status === 'Casual Leave' || day.status === 'Sick Leave' || day.status === 'Optional Leave', 'holiday-text' :  day.status.includes('Holiday'), 'empty-day-text': day.status === '' && !isPresentDay(day.attendanceDate), 'current-day-text': isPresentDay(day.attendanceDate) && day.status === ''   }">
+                                    {{day.status }}</span>
+                                <div *ngIf="day.status === 'Present'">
+                                    <label
+                                        [ngClass]="{'weekend-text':isWeekend(day.attendanceDate),'present-text': day.status === 'Present'||  day.status.includes('0.5 Day Present') || day.status.includes('0.5 Day Absent') , 'absent-text': day.status === 'Absent', 'leave-text': day.status === 'Casual Leave' || day.status === 'Sick Leave' || day.status === 'Optional Leave', 'holiday-text' :  day.status.includes('Holiday'), 'empty-day-text': day.status === '' && !isPresentDay(day.attendanceDate), 'current-day-text': isPresentDay(day.attendanceDate) && day.status === ''  }">{{
+                                        day.attendanceDate | date:'shortTime':'UTC' }} - {{ day.lastOut |
+                                            date:'shortTime':'UTC' }}</label>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Card for permission hours -->
+                        <div class="card permission-bg" *ngIf="day.permissionHours != 0">
+                            <div class="card-body">
+                                <span> {{ 'Permission' | localize }} {{ day.permissionHours | minutesToHours }} {{ 'hrs' | localize }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4" *ngIf="day.date === 0"></div> <!-- Empty col-lg-4 for days with date 0 -->
+        <div class="col-lg-8" *ngIf="day.date === 0"></div> <!-- Empty col-lg-8 for days with date 0 -->
+    </div>
+</div>
+</div>
