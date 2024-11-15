@@ -1,0 +1,100 @@
+﻿<div bsModal #createOrEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="createOrEditModal" aria-hidden="true" [config]="{backdrop: 'static'}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form *ngIf="active" #attendanceForm="ngForm" novalidate (ngSubmit)="save()" autocomplete="off">
+                <div class="modal-header">
+                    <h4 class="modal-title">
+                        <span *ngIf="attendance.id">{{l("EditAttendance")}}</span>
+                        <span *ngIf="!attendance.id">{{l("CreateNewAttendance")}}</span>
+                    </h4>                    
+                    
+                    
+                 <button type="button" class="btn-close" (click)="close()" aria-label="Close" [disabled]="saving"></button>
+             
+                </div>
+                <div class="modal-body">
+                 
+
+
+					<div class="my-3">
+                        <label class="form-label" for="UserName">{{l("User")}}</label>
+                        <div class="input-group">
+                            <input class="form-control" id="UserName" name="userName" [(ngModel)]="userName" type="text" disabled>     
+                            <button class="btn btn-primary blue" (click)="openSelectUserModal()" type="button"><i class="fa fa-search"></i> {{l("Pick")}}</button>
+                            <button class="btn btn-danger btn-icon" type="button" (click)="setUserIdNull()"><i class="fa fa-times"></i></button>                            
+                        </div>
+                    </div>
+                    <input class="form-control" name="attendance.userId" [(ngModel)]="attendance.userId" type="text"  hidden>
+                        
+
+
+								<div class="my-3">
+									<label class="form-label" for="Attendance_CheckIn">{{l("CheckIn")}}</label>
+									 <input class="form-control m-input" #Attendance_CheckIn type="datetime" bsDatepicker  datePickerLuxonModifier  [(date)]="attendance.checkIn" id="Attendance_CheckIn" name="Attendance_CheckIn">
+									<validation-messages [formCtrl]="Attendance_CheckIn"></validation-messages>
+								</div>
+					
+								<div class="my-3">
+									<label class="form-label" for="Attendance_CheckOut">{{l("CheckOut")}}</label>
+									 <input class="form-control m-input" #Attendance_CheckOut type="datetime" bsDatepicker  datePickerLuxonModifier  [(date)]="attendance.checkOut" id="Attendance_CheckOut" name="Attendance_CheckOut">
+									<validation-messages [formCtrl]="Attendance_CheckOut"></validation-messages>
+								</div>
+					
+								<div class="my5">
+									<label class="form-label" for="Attendance_TotalMinutes">{{l("TotalMinutes")}}</label>
+									<input type="number" #Attendance_TotalMinutes="ngModel" id="Attendance_TotalMinutes" class="form-control" [(ngModel)]="attendance.totalMinutes" name="TotalMinutes"    />
+									<validation-messages [formCtrl]="Attendance_TotalMinutes"></validation-messages>
+								</div>
+					
+								<div class="my-3">
+									<label class="form-label" for="Attendance_EmployeeId">{{l("EmployeeId")}} *</label>
+									<input type="text" #Attendance_EmployeeId="ngModel" id="Attendance_EmployeeId" class="form-control" [(ngModel)]="attendance.employeeId" name="EmployeeId"     required/>
+								    <validation-messages [formCtrl]="Attendance_EmployeeId"></validation-messages>
+								</div>
+					
+								<div class="my-3">
+									<label class="form-label" for="Attendance_Eventtime">{{l("Eventtime")}}</label>
+									 <input required class="form-control m-input" #Attendance_Eventtime type="datetime" bsDatepicker  datePickerLuxonModifier  [(date)]="attendance.eventtime" id="Attendance_Eventtime" name="Attendance_Eventtime">
+									<validation-messages [formCtrl]="Attendance_Eventtime"></validation-messages>
+								</div>
+					
+								<br/>
+								<label class="form-check form-check-custom form-check-solid">
+                                    <input
+                                        id="Attendance_Ischeckin" 
+                                        #Attendance_Ischeckin="ngModel"
+                                        name="Ischeckin" 
+                                        [(ngModel)]="attendance.ischeckin"
+                                        type="checkbox"
+                                        class="form-check-input"
+                                    />
+                                    <span class="form-check-label">
+                                        {{l("Ischeckin")}}
+                                    </span>
+                                </label>
+                                <validation-messages [formCtrl]="Attendance_Ischeckin"></validation-messages>
+					
+								<div class="my-3">
+									<label class="form-label" for="Attendance_Downloaddate">{{l("Downloaddate")}}</label>
+									 <input required class="form-control m-input" #Attendance_Downloaddate type="datetime" bsDatepicker  datePickerLuxonModifier  [(date)]="attendance.downloaddate" id="Attendance_Downloaddate" name="Attendance_Downloaddate">
+									<validation-messages [formCtrl]="Attendance_Downloaddate"></validation-messages>
+								</div>
+					
+								<div class="my-3">
+									<label class="form-label" for="Attendance_SourceType">{{l("SourceType")}}</label>
+									<input type="text" #Attendance_SourceType="ngModel" id="Attendance_SourceType" class="form-control" [(ngModel)]="attendance.sourceType" name="SourceType"    />
+								    <validation-messages [formCtrl]="Attendance_SourceType"></validation-messages>
+								</div>
+					
+
+                </div>
+                <div class="modal-footer">
+                    <button [disabled]="saving" type="button" class="btn btn-default" (click)="close()">{{l("Cancel")}}</button>
+                    <button type="submit" class="btn btn-primary blue" [disabled]="!attendanceForm.form.valid" [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')"><i class="fa fa-save"></i> <span>{{l("Save")}}</span></button>
+                </div>
+            </form>
+        </div>
+    </div>
+<attendanceUserLookupTableModal #attendanceUserLookupTableModal (modalSave)="getNewUserId()"></attendanceUserLookupTableModal>
+		 
+</div>

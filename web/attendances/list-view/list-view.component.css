@@ -1,0 +1,153 @@
+.early-time {
+  color:#BFE4BF;
+}
+
+.late-time {
+  color:#FCB0B0;
+}
+
+.slidericon {
+  background: #fff;
+  border: 1px solid lightgray;
+  height: 39px;
+  float: right;
+  border-right: none;
+  border-bottom-left-radius: 5px;
+  border-top-left-radius: 5px;
+}
+
+.WeekMonth {
+  border: 1px solid lightgray;
+  padding: 8px 8px 8px 4px;
+  float: right;
+  height: 39px;
+  border-left: none;
+  outline: none;
+  border-bottom-right-radius: 5px;
+  border-top-right-radius: 5px;
+}
+
+.attendance-item {
+  margin-bottom: 1rem;
+}
+
+.progress-bar {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.flex-container {
+  display: flex;
+  position: relative;
+  width: 100%;
+}
+
+.flex-item {
+  flex: 1;
+  width:100%;
+  text-align: left;
+  padding: 15px 0px;
+  height: 47px;
+  border-right: 1px solid #e4e4e4;
+}
+
+.centered-text {
+  text-align: center;
+}
+
+.shift {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.shift .col-12 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+p-dropdown {
+  width: 200px;
+  display: flex;
+}
+
+::ng-deep .p-dropdown {
+  width: 300px;
+  border-radius: 10px;
+  border-color: #E2E2E2;
+}
+
+.reportees_list {
+  margin-top: -52px;
+  margin-bottom: 15px;
+}
+
+.p-datatable-thead > tr > th{
+  font-size: 10px !important;
+}
+
+.table > tbody > tr > td:first-child, .p-datatable .p-datatable-tbody > tr > td:first-child{
+  border-right: 1px solid #e4e4e4;
+}
+.flex-item:last-child{
+  border-right:none;
+}
+.prev-btn, .week-days, .next-btn{
+  color:#6A6B6C;
+}
+.home-btn{
+  color: #9B9B9B;
+}
+
+.custom-card {
+  background-color: #f8f9fa;
+  border: 1px solid #dee2e6;
+  border-radius: 0.25rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.custom-card-body h5 {
+  font-size: 1.25rem;
+  font-weight: 500;
+  margin-bottom: 10px;
+}
+
+.custom-card-body p {
+  font-size: 1rem;
+  margin: 0;
+
+}
+.Cardhr{
+  padding: 0px !important;
+}
+.current-time-line {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 2px; /* Adjust thickness of the line */
+    border: 0.5px solid rgba(255, 0, 0, 0.1); /* Color of the line */
+    height: 475px;
+}
+.current-time-line-month {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 2px; /* Adjust thickness of the line */
+    border: 0.5px solid rgba(255, 0, 0, 0.1); /* Color of the line */
+    height: 150rem;
+}
+.card .card-body {
+    padding: 20px !important;
+}
+.p-datatable .p-datatable-tbody > tr > td {
+    padding: 8px !important;
+}

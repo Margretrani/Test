@@ -1,0 +1,321 @@
+<div [@routerTransition]>
+    <div>
+        <p-dropdown class="reportees_list" [options]="reportFiltersInit.teamIds" [(ngModel)]="selectedTeamId"
+        *ngIf="isGranted('Pages.TimesheetApprovals') || isGranted('Pages.LeaveApprovals') || isGranted('Pages.PermissionApprovals')"   
+        (ngModelChange)="getAttendances($event, selectedTeamId)"
+            optionLabel="teamName" optionValue="teamId" [filter]="true">
+            <ng-template let-team pTemplate="selectedItem">
+                <div class="reportees_text_size">
+                    <img [src]="profilePicture" alt="Logo" style="width: 35px; height: 35px; margin-right: 10px;">
+                    {{team.employeeId}} {{team.teamName}}
+                </div>
+            </ng-template>
+            <ng-template let-team pTemplate="item">
+                <div>
+                    <img [src]="profilePicture" alt="Logo" style="width: 20px; height: 20px; margin-right: 15px;">
+                    {{team.employeeId}} {{team.teamName}}
+                </div>
+            </ng-template>
+        </p-dropdown>
+    </div>
+
+
+    <div class="card card-custom gutter-b">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-lg-4">
+                    <form [formGroup]="calendar" class="d-inline-block">
+                        <div *ngIf="selectedView === 'week'">
+                            <div class="calendar-container">
+                                <div>
+                                    <button class="att-prev-btn" (click)="previousWeek()">
+                                        <span class="fa fa-arrow-left"></span>
+                                    </button>
+                                    <button class="week-days" [(ngModel)]="selectedDate">{{ weekStart.format('DD MMM
+                                        yyyy')}} - {{
+                                        weekEnd.format('DD MMM YYYY') }}</button>
+        
+                                    <button class="att-home-btn" (click)="currentDate()">
+                                        <span class="fa fa-home"></span>
+                                    </button>
+                                    <button class="att-next-btn" (click)="nextWeek()">
+                                        <span class="fa fa-arrow-right"></span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+        
+                        <div *ngIf="selectedView === 'month'">
+                            <div class="date-picker-container d-inline">
+                                <button class="att-prev-btn" (click)="prevMonth()"><span class="fa fa-arrow-left"></span></button>
+                                <button [(ngModel)]="modelDate" autocomplete="off" class="week-days date-pick" name="date"
+                                    (onShown)="onOpenCalendar($event)"  style="width: 150px;" >{{modelDate | date:'MMMM yyyy'}} 
+                                </button>
+                                <button class="att-home-btn" (click)="currentdate()"><span class="fa fa-home"></span></button>
+                                <button class="att-prev-btn" (click)="nextMonth()">
+                                    <span class="fa fa-arrow-right"></span></button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-lg-4 m-auto">
+                    <div class="text-center">
+                        General [09:00AM - 06:00PM]
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <img src="../assets/common/images/Export.svg" style="float: right; margin-left: 20px;"
+                    (click)="exportCsv()">
+                    <select [(ngModel)]="selectedView" (change)="changeCalendarView()" class="WeekMonth">
+                        <option value="week">{{l("Attendweek")}}</option>
+                        <option value="month">{{l("Attendmonth")}}</option>
+                    </select>
+                    <button class="slidericon">
+                        <span class="fa fa-sliders p-1" style="transform: rotate(270deg)"></span>
+                    </button>
+                </div>
+            </div>
+            
+
+            
+            <!-- <form class="form" autocomplete="off">
+                <div>
+
+                    <div class="row align-items-center">
+                        <div class="col-xl-12">
+                            <div class="my-3">
+                                <div class="input-group mb-3">
+                                    <input [(ngModel)]="filterText" (ngModelChange)="getAttendances()" name="filterText"
+                                        autoFocus type="text" class="form-control"
+                                        [placeholder]="l('SearchWithThreeDot')">
+                                    <button class="btn btn-primary" type="submit" (click)="getAttendances()"><i
+                                            class="flaticon-search-1"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" [hidden]="!advancedFiltersAreShown">
+                        <div class="col-md-12">
+                        </div>
+                        <div class="col-md-3">
+                            <div class="my-3">
+                                <label class="form-label" for="MinCheckInFilter">{{l("CheckInRange")}}</label>
+                                <div class="input-group">
+                                    <input class="form-control m-input" id="MinCheckInFilter" name="MinCheckInFilter"
+                                        type="datetime" bsDatepicker placeholder="{{l('MinValue')}}"
+                                        [(ngModel)]="minCheckInFilter" (ngModelChange)="getAttendances()">
+                                    <span style="line-height: 40px;padding: 0 15px 0 15px;"> &mdash; </span>
+                                    <input class="form-control m-input" id="MaxCheckInFilter" name="MaxCheckInFilter"
+                                        type="datetime" bsDatepicker placeholder="{{l('MaxValue')}}"
+                                        [(ngModel)]="maxCheckInFilter" (ngModelChange)="getAttendances()">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="my-3">
+                                <label class="form-label" for="MinCheckOutFilter">{{l("CheckOutRange")}}</label>
+                                <div class="input-group">
+                                    <input class="form-control m-input" id="MinCheckOutFilter" name="MinCheckOutFilter"
+                                        type="datetime" bsDatepicker placeholder="{{l('MinValue')}}"
+                                        [(ngModel)]="minCheckOutFilter" (ngModelChange)="getAttendances()">
+                                    <span style="line-height: 40px;padding: 0 15px 0 15px;"> &mdash; </span>
+                                    <input class="form-control m-input" id="MaxCheckOutFilter" name="MaxCheckOutFilter"
+                                        type="datetime" bsDatepicker placeholder="{{l('MaxValue')}}"
+                                        [(ngModel)]="maxCheckOutFilter" (ngModelChange)="getAttendances()">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="my-3">
+                                <label class="form-label" for="MinTotalMinutesFilter">{{l("MinMax")}}
+                                    {{l("TotalMinutes")}}</label>
+                                <div class="input-group">
+                                    <input type="number" class="form-control" id="MinTotalMinutesFilter"
+                                        [(ngModel)]="minTotalMinutesFilter" placeholder="{{l('MinValue')}}"
+                                        name="minTotalMinutesFilter" (ngModelChange)="getAttendances()" />
+                                    <input type="number" class="form-control" [(ngModel)]="maxTotalMinutesFilter"
+                                        placeholder="{{l('MaxValue')}}" name="maxTotalMinutesFilter"
+                                        (ngModelChange)="getAttendances()" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="my-3">
+                                <label class="form-label" for="EmployeeIdFilter">{{l("EmployeeId")}}</label>
+                                <input type="text" class="form-control" id="EmployeeIdFilter" name="employeeIdFilter"
+                                    [(ngModel)]="employeeIdFilter" (ngModelChange)="getAttendances()">
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="my-3">
+                                <label class="form-label" for="MinEventtimeFilter">{{l("EventtimeRange")}}</label>
+                                <div class="input-group">
+                                    <input class="form-control m-input" id="MinEventtimeFilter"
+                                        name="MinEventtimeFilter" type="datetime" bsDatepicker
+                                        placeholder="{{l('MinValue')}}" [(ngModel)]="minEventtimeFilter"
+                                        (ngModelChange)="getAttendances()">
+                                    <span style="line-height: 40px;padding: 0 15px 0 15px;"> &mdash; </span>
+                                    <input class="form-control m-input" id="MaxEventtimeFilter"
+                                        name="MaxEventtimeFilter" type="datetime" bsDatepicker
+                                        placeholder="{{l('MaxValue')}}" [(ngModel)]="maxEventtimeFilter"
+                                        (ngModelChange)="getAttendances()">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="my-3">
+                                <label class="form-label" for="IscheckinFilterSelect">{{l("Ischeckin")}}</label>
+                                <select class="form-select" name="IscheckinFilter" id="IscheckinFilterSelect"
+                                    [(ngModel)]="ischeckinFilter" (ngModelChange)="getAttendances()">
+                                    <option value="-1">{{l("All")}}</option>
+                                    <option value="0">{{l("False")}}</option>
+                                    <option value="1">{{l("True")}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="my-3">
+                                <label class="form-label" for="MinDownloaddateFilter">{{l("DownloaddateRange")}}</label>
+                                <div class="input-group">
+                                    <input class="form-control m-input" id="MinDownloaddateFilter"
+                                        name="MinDownloaddateFilter" type="datetime" bsDatepicker
+                                        placeholder="{{l('MinValue')}}" [(ngModel)]="minDownloaddateFilter"
+                                        (ngModelChange)="getAttendances()">
+                                    <span style="line-height: 40px;padding: 0 15px 0 15px;"> &mdash; </span>
+                                    <input class="form-control m-input" id="MaxDownloaddateFilter"
+                                        name="MaxDownloaddateFilter" type="datetime" bsDatepicker
+                                        placeholder="{{l('MaxValue')}}" [(ngModel)]="maxDownloaddateFilter"
+                                        (ngModelChange)="getAttendances()">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="my-3">
+                                <label class="form-label" for="SourceTypeFilter">{{l("SourceType")}}</label>
+                                <input type="text" class="form-control" id="SourceTypeFilter" name="sourceTypeFilter"
+                                    [(ngModel)]="sourceTypeFilter" (ngModelChange)="getAttendances()">
+                            </div>
+                        </div>
+
+
+                        <div class="col-md-3">
+                            <div class="my-3">
+                                <label class="form-label" for="UserNameFilter">({{l("User")}}) {{l("Name")}}</label>
+                                <input type="text" class="form-control" id="UserNameFilter" name="userNameFilter"
+                                    [(ngModel)]="userNameFilter">
+                            </div>
+                        </div>
+                        <div class="col-md-12 mt-5">
+                            <button (click)="resetFilters()" class="btn btn-secondary btn-sm"
+                                id="btn-reset-filters">Reset</button>
+                        </div>
+                    </div>
+                    <div class="row my-4">
+                        <div class="col-sm-12">
+                            <span class="clickable-item text-muted" *ngIf="!advancedFiltersAreShown"
+                                (click)="advancedFiltersAreShown=!advancedFiltersAreShown"><i
+                                    class="fa fa-angle-down"></i> {{l("ShowAdvancedFilters")}}</span>
+                            <span class="clickable-item text-muted" *ngIf="advancedFiltersAreShown"
+                                (click)="advancedFiltersAreShown=!advancedFiltersAreShown"><i
+                                    class="fa fa-angle-up"></i> {{l("HideAdvancedFilters")}}</span>
+                        </div>
+                    </div>
+                </div>
+            </form> -->
+
+            <div class="row align-items-center mt-5">
+                <div class="primeng-datatable-container col-12" [busyIf]="primengTableHelper.isLoading">
+                    <p-table #dataTable (onLazyLoad)="getAttendances($event)" [value]="primengTableHelper.records"
+                        rows="{{primengTableHelper.defaultRecordsCountPerPage}}" [paginator]="false" [lazy]="true"
+                        [scrollable]="true" ScrollWidth="100%" [tableStyle]="{'min-width': '50rem'}"
+                        [resizableColumns]="primengTableHelper.resizableColumns">
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th style="width: 170px">
+                                    {{l('TabularDate')}}
+                                </th>
+                                <th style="width: 150px">
+                                    {{l(' FirstIn')}}
+                                </th>
+                                <th style="width: 150px">
+                                    {{l(' LastOut')}}
+                                </th>
+                                <th style="width: 150px">
+                                    {{l('TotalHours')}}
+                                </th>
+                                <th style="width: 150px">
+                                    {{l('PaidBreaks')}}
+                                </th>
+                                <th style="width: 150px">
+                                    {{l('TabularPermission')}}
+                                </th>
+                                <th style="width: 150px">
+                                    {{l('PayableHours')}}
+                                </th>
+                                <th style="width: 150px">
+                                    {{l('TabularStatus')}}
+                                </th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-record="$implicit" let-i="rowIndex">
+                            <tr>
+                                <td class="tabular-td" style="width:170px">
+                                    <span class="p-column-title"> {{l('TotalMinutes')}}</span>
+                                    {{ stripTime(record.attendanceDate) | date: 'EEE, dd MMM yyyy' }}
+                                </td>
+                                <td class="tabular-td" style="width:152px">
+                                    <span class="p-column-title"> {{l('TotalMinutes')}}</span>
+                                    {{record.firstIn == null ? "--" : (record.firstIn | date:'h:mm a':'UTC')}}
+                                </td>
+                                <td class="tabular-td" style="width:152px">
+                                    <span class="p-column-title"> {{l('TotalMinutes')}}</span>
+                                    {{record.lastOut == null ? "--" : (record.lastOut | date:'h:mm a':'UTC')}}
+                                </td>
+                                <td class="tabular-td" style="width:152px">
+                                    <span class="p-column-title"> {{l('EmployeeId')}}</span>
+                                    {{record.totalHours | minutesToHours}}
+                                </td>
+                                <td class="tabular-td">{{record.breakHours | minutesToHours}}</td>
+                                <td class="tabular-td" style="width:152px">
+                                    <span class="p-column-title"> {{l('EmployeeId')}}</span>
+                                    {{record.permissionHours | minutesToHours}}
+                                </td>
+                                <td class="tabular-td" style="width:152px">
+                                    <span class="p-column-title"> {{l('EmployeeId')}}</span>
+                                    {{record.payableHours | minutesToHours}}
+                                </td>
+                                <td class="tabular-td">
+                                    <span class="tabular-status" [ngClass]="record.status" title="{{record.status}}">{{record.status}}</span>
+                                </td>
+                            </tr>
+
+                        </ng-template>
+                    </p-table>
+                    <div class="primeng-no-data" *ngIf="footerDetails == null">
+                        {{l('NoData')}}
+                    </div>
+                
+                    <div class="primeng-paging-container d-none">
+                        <p-paginator [rows]="primengTableHelper.defaultRecordsCountPerPage" #paginator
+                            (onPageChange)="getAttendances($event)"
+                            [totalRecords]="primengTableHelper.totalRecordsCount"
+                            [rowsPerPageOptions]="primengTableHelper.predefinedRecordsCountPerPage"
+                            [showCurrentPageReport]="true"
+                            [currentPageReportTemplate]="'TotalRecordsCount' | localize:primengTableHelper.totalRecordsCount">
+                        </p-paginator>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <createOrEditAttendanceModal #createOrEditAttendanceModal (modalSave)="getAttendances()">
+    </createOrEditAttendanceModal>
+    <viewAttendanceModal #viewAttendanceModal></viewAttendanceModal>
+    <entityTypeHistoryModal #entityTypeHistoryModal></entityTypeHistoryModal>
+</div>
+
+<div class="attendance-footer">
+    <app-footer-view [footerData]="footerDetails"> </app-footer-view>
+</div>

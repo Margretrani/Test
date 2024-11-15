@@ -1,0 +1,273 @@
+.progress-bar-weekend {
+    width: 0%;
+    background-color: rgba(164, 188, 200, 0.43);
+    border-radius: 10px;
+    text-align: center;
+    color: white;
+    transition: width 0.5s;
+    margin: auto 0;
+    height: 100%;
+    padding: 10px;
+    text-align: left;
+}
+
+.progress-bar-absent {
+    width: 0%;
+    background-color:rgba(252, 176, 176, 0.35);    ;
+    border-radius: 10px;
+    text-align: center;
+    color: white;
+    transition: width 0.5s;
+    margin: auto 0;
+    height: 100%;
+    padding: 10px;
+    text-align: left;
+}
+
+.progress-bar-present {
+    margin: auto 0;
+    height: 100%;
+    padding: 10px;
+    text-align: left;
+    width: 0%;
+    background-color: rgba(191, 228, 191, 0.75);
+    border-radius: 10px;
+    color: white;
+    /* transition: width 0.5s; */
+}
+/* .width-0 {
+    width: 0%;
+  }
+
+  .width-100 {
+    width: 100%;
+  } */
+
+.progress-bar-holiday {
+    width: 0%;
+    background-color: #9cc6e5;
+    border-radius: 10px;
+    text-align: center;
+    color: white;
+    transition: width 0.5s;
+    margin: auto 0;
+    height: 100%;
+    padding: 10px;
+    text-align: left;
+}
+
+.progress-bar-Empty {
+    width: 0%;
+    background-color: #e3edf7;
+    border-radius: 10px;
+    text-align: center;
+    color: white;
+    transition: width 0.5s;
+    margin: auto 0;
+    height: 100%;
+    padding: 10px;
+    text-align: left;
+}
+
+.progress-bar-Missed {
+    width: 0%;
+    background-color: #6C73DB;
+    border-radius: 10px;
+    text-align: center;
+    color: white;
+    transition: width 0.5s;
+    margin: auto 0;
+    height: 100%;
+    padding: 1px;
+    text-align: left;
+}
+
+.progress-bar-Leave {
+    width: 0%;
+    background-color: #BFE4BFBF;
+    border-radius: 10px;
+    text-align: center;
+    color: white;
+    transition: width 0.5s;
+    margin: auto 0;
+    height: 100%;
+    padding: 10px;
+    text-align: left;
+}
+.progress-bar-Casual {
+    width: 0%;
+    background-color: rgba(54, 149, 244, 0.1);
+    border-radius: 10px;
+    text-align: center;
+    color: white;
+    transition: width 0.5s;
+    margin: auto 0;
+    height: 100%;
+    padding: 10px;
+    text-align: left;
+}
+.progress-bar-Sick {
+    width: 0%;
+    background-color: rgba(152, 154, 187, 0.35);
+    border-radius: 10px;
+    text-align: center;
+    color: white;
+    transition: width 0.5s;
+    margin: auto 0;
+    height: 100%;
+    padding: 10px;
+    text-align: left;
+}
+.progress-bar-Optional {
+    width: 0%;
+    background-color: rgba(165, 168, 234, 0.35);
+    border-radius: 10px;
+    text-align: center;
+    color: white;
+    transition: width 0.5s;
+    margin: auto 0;
+    height: 100%;
+    padding: 10px;
+    text-align: left;
+}
+
+.progress-bar-sample {
+    width: 0%;
+    background-color: #fccaa1;
+    text-align: center;
+    color: white;
+    transition: width 0.5s;
+    display: flex;
+    margin: auto 0;
+    height: 100%;
+    padding: 10px;
+    text-align: left;
+}
+
+.styled-div {
+    background-color: #4CAF50;
+    height: 20px;
+}
+
+body {
+    overflow-x: hidden;
+}
+
+.nav {
+    width: Fixed (920px)px;
+    height: Fixed (60px)px;
+    padding: 0px 10px 0px 10px;
+    gap: 0px;
+    border: 0px 0px 1px 0px;
+    justify-content: space-between;
+    opacity: 0px;
+    background-color: #6C73DB;
+}
+
+.card-txt {
+    font-size: 12px;
+}
+
+.card-time {
+    font-weight: bold;
+    font-size: 12px;
+}
+
+span .progress-bar-present{
+    padding: 4px;
+    background: green;
+}
+.offcanvas {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 300px;
+    height: 100%;
+    background-color: white;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transform: translateX(100%);
+    transition: transform 0.3s ease;
+    z-index: 1050; /* Adjust z-index as needed */
+  }
+
+  .offcanvas.show {
+    transform: translateX(0);
+  }
+  .weekend{
+    margin: 8px 0px 0px 8px;
+    font-size: 13px;
+    color: rgba(135, 152, 160, 1);
+    border-left: 4px solid rgba(135, 152, 160, 1);
+    padding-left: 14px;
+  }
+  .Absent{
+    margin: 8px 0px 0px 8px;
+    font-size: 13px;
+    color: rgba(103, 103, 103, 1);
+    border-left: 4px solid rgba(173, 4, 4, 1);
+    padding-left: 14px;
+  }
+  .Absents{
+    margin: 8px 0px 0px 0px;
+    font-size: 13px;
+    color: rgba(103, 103, 103, 1);
+    border-left: 4px solid rgba(173, 4, 4, 1);
+    padding-left: 14px;
+  }
+  .Presents{
+    margin: -2px 0px 0px -2px;
+    font-size: 13px;
+    color: rgba(103, 103, 103, 1);
+    border-left: 4px solid rgba(0, 193, 77, 1);
+    padding-left: 14px;
+    background-color: rgba(255, 255, 255, 0.75);
+    position: absolute;
+  }
+  .Present{
+    margin: 0px 0px 0px -2px;
+    font-size: 13px;
+    color: rgba(103, 103, 103, 1);
+    border-left: 4px solid rgba(0, 193, 77, 1);
+    padding-left: 14px;
+    position: absolute;
+  }
+  .PresentWfh{
+    margin: 8px 0px 0px 8px;
+    font-size: 13px;
+    color: rgba(103, 103, 103, 1);
+    border-left: 4px solid rgba(0, 193, 77, 1);
+    padding-left: 14px;
+    position: absolute;
+  }
+  .CasualLeave{
+    margin: 8px 0px 0px 8px;
+    font-size: 13px;
+    color: rgba(103, 103, 103, 1);
+    border-left: 4px solid rgba(54, 149, 244, 1);
+    padding-left: 14px;
+    position: absolute;
+  }
+  .SickLeave{
+    margin: 8px 0px 0px 8px;
+    font-size: 13px;
+    color: rgba(103, 103, 103, 1);
+    border-left: 4px solid rgba(152, 154, 187, 1);
+    padding-left: 14px;
+    position: absolute;
+  }
+  .OptionalLeave{
+    margin: 8px 0px 0px 8px;
+    font-size: 13px;
+    color: rgba(103, 103, 103, 1);
+    border-left: 4px solid rgba(165, 168, 234, 1);
+    padding-left: 14px;
+    position: absolute;
+  }
+  .HalfLeave{
+    margin: 0px 0px 0px -2px;
+    color: rgba(103, 103, 103, 1);
+    border-left: 4px solid rgba(152, 154, 187, 1);
+    padding-left: 14px;
+    font-size: 13px;
+    position: absolute;
+  }

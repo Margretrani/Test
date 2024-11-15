@@ -1,0 +1,61 @@
+﻿<!-- <style>
+    .p-datatable-wrapper{
+    height: 350px !important;
+}
+</style> -->
+<div class="container-fluid app-container">
+    <div class="text-end mt-2 mb-2">
+        <div class="d-inline" *ngIf="isList">
+            <span class="tooltipss"><img (click)="isListView()" src="../../../../assets/common/images/icons/list_2.png" class="attendance-btn-2"><span class="tooltiptext">List view</span></span>
+            <span class="tooltipss2"><img (click)="isTableView()" src="../../../../assets/common/images/icons/tabular.png" class="attendance-btn"><span class="tooltiptext2">Tabular view</span></span>
+            <span class="tooltipss3"><img (click)="isCalendarView()" src="../../../../assets/common/images/icons/calendar.png" class="attendance-btn"><span class="tooltiptext3">Calendar view</span></span>
+        </div>
+        <div class="d-inline" *ngIf="isTable">
+            <span class="tooltipss"><img (click)="isListView()" src="../../../../assets/common/images/icons/list.png" class="attendance-btn"><span class="tooltiptext">List view</span></span>
+            <span class="tooltipss2"><img (click)="isTableView()" src="../../../../assets/common/images/icons/tabular_2.png" class="attendance-btn-2"><span class="tooltiptext2">Tabular view</span></span>
+            <span class="tooltipss3"><img (click)="isCalendarView()" src="../../../../assets/common/images/icons/calendar.png" class="attendance-btn"><span class="tooltiptext3">Calendar view</span></span>
+        </div>
+        <div class="d-inline" *ngIf="isCalendar">
+            <span class="tooltipss"><img (click)="isListView()" src="../../../../assets/common/images/icons/list.png" class="attendance-btn"><span class="tooltiptext">List view</span></span>
+            <span class="tooltipss2"><img (click)="isTableView()" src="../../../../assets/common/images/icons/tabular.png" class="attendance-btn"><span class="tooltiptext2">Tabular view</span></span>
+            <span class="tooltipss3"><img (click)="isCalendarView()" src="../../../../assets/common/images/icons/calendar_2.png" class="attendance-btn-2"><span class="tooltiptext3">Calendar view</span></span>
+        </div>
+        <div class="btn-group dropdown ms-3" dropdown container="body">
+            <button class="dropdown-toggle btn btn-white blue" dropdownToggle>
+                {{ l('Apply') }}
+                <!-- <i class="fa fa-chevron-down"></i> -->
+            </button>
+            <ul class="dropdown-menu" *dropdownMenu>
+                <li>
+                    <a
+                        class="dropdown-item"
+                        [routerLink]="[
+                            '/app/main/rubixProduct/permissionRequests'
+                        ]"
+                    >
+                        {{ l('Permission') }}
+                    </a>
+                </li>
+                <li *ngIf="isGranted('Pages.Regularizations') && isGranted('Pages.RegularizationDetails')">
+                    <a
+                        class="dropdown-item"
+                        [routerLink]="[
+                            '/app/main/rubixProduct/regularizations/createOrEdit'
+                        ]"
+                    >
+                        {{ l('Regularization') }}
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div *ngIf="isList">
+        <app-list-view [item]="isList"></app-list-view>
+    </div>
+    <div *ngIf="isTable">
+        <app-tabular-view [item2]="isTable"></app-tabular-view>
+    </div>
+    <div *ngIf="isCalendar">
+        <app-calendar-view [item3]="isCalendar"></app-calendar-view>
+    </div>
+</div>

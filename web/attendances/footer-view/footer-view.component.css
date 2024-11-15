@@ -1,0 +1,116 @@
+/* .main_div {
+    text-align:center;
+    position: relative;
+    left: 100px;
+    height: auto;
+    width: auto;
+    background-color: green;
+}
+.sub_div {
+    position: absolute;
+    bottom: 0px;
+}
+p {
+    margin-left:110px;
+} */
+
+
+.row {
+  display: flex;
+  justify-content: space-between;
+}
+
+.column {
+  width: 100%;
+  padding: 0;
+}
+
+.box1 {
+/* width: 100% !important; */
+background-color: rgba(86, 148, 199, 0.05);
+border-top: 2px solid #18BFF3;
+margin: 0px 5px 0px 0px;
+padding: 10px 5px;
+}
+
+.box2 {
+/* width: 100% !important; */
+background-color: rgba(86, 148, 199, 0.05);
+border-top: 2px solid #00C14D;
+margin: 0px 5px;
+padding: 10px 5px;
+}
+
+.box3 {
+/* width: 100% !important; */
+background-color: rgba(86, 148, 199, 0.05);
+border-top: 2px solid #E894EF;
+margin: 0px 5px;
+padding: 10px 5px;
+}
+
+.box4 {
+/* width: 100% !important; */
+background-color: rgba(86, 148, 199, 0.05);
+border-top: 2px solid #A4BCC8;
+margin: 0px 5px; 
+padding: 10px 5px;
+}
+
+.box5 {
+/* width: 100% !important; */
+background-color: rgba(86, 148, 199, 0.05);
+border-top: 2px solid #FFE493CF;
+margin: 0px 5px;
+padding: 10px 5px;
+}
+
+.box6 {
+/* width: 100% !important; */
+background-color: rgba(86, 148, 199, 0.05);
+border-top: 2px solid #C2293D;
+margin: 0px 5px;
+padding: 10px 5px;
+}
+
+.box7 {
+/* width: 100% !important; */
+background-color: rgba(86, 148, 199, 0.05);
+border-top: 2px solid #EF9B9B;
+margin: 0px 0px 5px 5px;
+padding: 10px 5px;
+}
+
+footer .app-name{
+color: white;
+outline: 4px solid var(--theme-col);
+padding-left: 1.5rem;
+font-size: 1.875rem;
+line-height: 2.25rem;
+font-weight: 700;
+}
+
+.app-name .app-initial{
+color: var(--theme-col);
+font-size: 10px;
+/* border: 1px solid gray; */
+padding: 4px;
+border-radius: 6px;
+}
+
+footer .app-info p{
+color: white;
+padding-left: 1.65rem;
+}
+.app-info{
+  border: 1px solid rgba(0, 0, 0, 0.16);
+  border-radius: 5px;
+  width: max-content;
+  min-width: 100%;
+}
+.column, .column > div > h6{
+  color:#082777;
+}
+.card{
+  border-radius: 0;
+}

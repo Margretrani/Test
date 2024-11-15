@@ -1,0 +1,27 @@
+<form [formGroup]="locationForm" (ngSubmit)="onSubmit()">
+  <div>
+    <label for="country">Country</label>
+    <select id="country" formControlName="country">
+      <option value="">Select a country</option>
+      <option *ngFor="let country of countries" [value]="country">{{ country }}</option>
+    </select>
+  </div>
+
+  <div *ngIf="filteredStates.length > 0">
+    <label for="state">State</label>
+    <select id="state" formControlName="state">
+      <option value="">Select a state</option>
+      <option *ngFor="let state of filteredStates" [value]="state">{{ state }}</option>
+    </select>
+  </div>
+
+  <div *ngIf="filteredCities.length > 0">
+    <label for="city">City</label>
+    <select id="city" formControlName="city">
+      <option value="">Select a city</option>
+      <option *ngFor="let city of filteredCities" [value]="city">{{ city }}</option>
+    </select>
+  </div>
+
+  <button type="submit" [disabled]="locationForm.invalid">Submit</button>
+</form>
