@@ -1,0 +1,49 @@
+.commonGradient{
+    background: linear-gradient(to right,#527cce,#5f71c7, #7061be, #834bb2 );
+   
+}
+
+ .p-4 {
+  height: 445px; 
+  width: 270px; 
+  box-sizing: content-box;
+  border-radius: 9px;
+  margin-top: 80px;  
+} 
+.title{
+    margin-top: 30px;
+    text-align: center;
+}
+
+  .styled-input {
+    border: none; 
+    border-bottom: 2px solid lightgrey; 
+    background: transparent;
+    outline: none;
+    font-size: 18px; 
+    width: 100%;
+    padding: 8px 0; 
+    transition: border-color 0.3s;
+    margin-top: 35px;
+  }
+  
+ 
+  .styled-input::placeholder {
+    color: grey;
+    font-size: 16px;
+  }
+  
+
+  .btn{
+    background: linear-gradient(to right,
+    #4f7ece,#5f71c7, #7061be, #834bb2);
+    width: 269px;
+    height: 40px;
+    border: none;
+    border-radius: 0px;
+    margin-top: 13px;
+    color: white;
+  }
+  .text{
+    color: #527cce !important;   
+  }
